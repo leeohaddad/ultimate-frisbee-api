@@ -1,0 +1,7 @@
+nohup: ignoring input
+{"level":"info","ts":1762114168.6451733,"caller":"zap/zap.go:79","msg":"configuring the Ultimate Frisbee API..."}
+{"level":"info","ts":1762114168.6478214,"caller":"zap/zap.go:85","msg":"initializing the HTTP server..."}
+{"level":"info","ts":1762114168.6478689,"caller":"zap/zap.go:79","msg":"the Ultimate Frisbee API was configured successfully"}
+{"level":"info","ts":1762114168.6478772,"caller":"zap/zap.go:79","msg":"starting the Ultimate Frisbee API..."}
+{"level":"info","ts":1762114168.6478887,"caller":"zap/zap.go:85","msg":"starting the  HTTP server..."}
+make: *** [Makefile:46: run/api] Terminated

@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "720f9aba-2363-4622-a75b-2ddb668e4d38",
+		"name": "Ultimate Frisbee API",
+		"description": "API designed to manage information about Ultimate Frisbee teams, players and tournaments.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3854396"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/health/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"health",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Get All Teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/teams/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"teams",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/teams/Ultimate Warriors/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"teams",
+								"Ultimate Warriors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"slug\": \"brasa\",\n  \"name\": \"Brasa\",\n  \"description\": \"A competitive ultimate frisbee team from Brazil\",\n  \"originCountry\": \"BRA\",\n  \"createdBy\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/teams/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"teams",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"An updated description for the Brasa team\",\n  \"originCountry\": \"Brazil\",\n  \"updatedBy\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/teams/Brasa/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"teams",
+								"Brasa",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:42007",
+			"type": "string"
+		}
+	]
+}

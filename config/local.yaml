@@ -1,0 +1,17 @@
+api:
+  host: localhost
+  port: 42007
+
+database:
+  connectionString: postgres://ultimate_frisbee_manager_user:some_password@localhost:42013/ultimate_frisbee_manager?sslmode=disable
+  protocol: postgres
+  host: localhost
+  port: 42013
+  databaseName: ultimate_frisbee_manager
+  user: ultimate_frisbee_manager_user
+  password: some_password
+  options: sslmode=disable
+
+logger:
+  level: INFO
+  mode: development

@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6380:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    networks:
+      - ultimate-frisbee-manager
+  postgres:
+    image: postgres:12.3
+    ports:
+      - "42013:5432"
+    environment:
+      POSTGRES_USER: ultimate_frisbee_manager_user
+      POSTGRES_PASSWORD: some_password
+      POSTGRES_DB: ultimate_frisbee_manager
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username", "ultimate_frisbee_manager_user", "--dbname", "ultimate_frisbee_manager"]
+      interval: 1s
+      timeout: 10s
+      retries: 5
+    networks:
+      - ultimate-frisbee-manager
+
+networks:
+  ultimate-frisbee-manager:
+    name: ultimate_frisbee_manager

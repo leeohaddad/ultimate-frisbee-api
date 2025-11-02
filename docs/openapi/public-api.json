@@ -1,0 +1,208 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Ultimate Frisbee API",
+    "version": "0.1.0",
+    "description": "_Ultimate Frisbee API_ allows you to organize data about teams and players from your local Ultimate Frisbee community.<br/><br/>**Owner:** Leonardo Haddad<br/>**Project Repository**: [https://github.com/leeohaddad/ultimate-frisbee-api](https://github.com/leeohaddad/ultimate-frisbee-api)",
+    "contact": {
+      "name": "Leonardo Haddad",
+      "email": "leo.haddad1@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ultimate-frisbee-api.leeohaddad.io"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Healthcheck",
+      "description": "Endpoints to manage API health"
+    },
+    {
+      "name": "People",
+      "description": "Endpoints to deal with People"
+    },
+    {
+      "name": "Teams",
+      "description": "Endpoints to deal with Teams"
+    },
+    {
+      "name": "Memberships",
+      "description": "Endpoints to deal with relationships between Prople and Teams"
+    }
+  ],
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "summary": "Retrieve statistics about the API resources",
+        "tags": [
+          "Healthcheck"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns resources statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerStats"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/people": {
+      "get": {
+        "summary": "Retrieve a list of people",
+        "tags": [
+          "People"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns a list of people",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new person",
+        "tags": [
+          "People"
+        ],
+        "requestBody": {
+          "description": "Information about the new person",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Person"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "422": {
+            "description": "Unprocessable Entity, received when one of the required fields was invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "Data sent with invalid fields",
+                    "data": [
+                      {
+                        "name": "name cannot be numeric."
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Authentication information is missing or invalid"
+      },
+      "PersonNotFound": {
+        "description": "Person not found"
+      },
+      "InternalServerError": {
+        "description": "Internal server error"
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "Person": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "Human-readable identifier of that person"
+          },
+          "IDType": {
+            "type": "string",
+            "description": "Type of the human-readable identifier of that person"
+          },
+          "name": {
+            "type": "string",
+            "description": "Person name"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Person who created this person registry"
+          },
+          "updatedBy": {
+            "type": "string",
+            "description": "Person who updated this person registry for the last time"
+          }
+        },
+        "example": {
+          "ID": "48.729.962-9",
+          "IDType": "RG (SSP/SP)",
+          "name": "Leonardo Haddad"
+        }
+      },
+      "ServerStats": {
+        "type": "object",
+        "properties": {
+          "now": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Server current timestamp"
+          },
+          "uptime": {
+            "type": "number",
+            "format": "float",
+            "description": "Number of seconds that this API has been running"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ]
+}
+
