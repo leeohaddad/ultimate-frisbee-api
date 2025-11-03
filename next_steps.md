@@ -6,3 +6,4 @@
 - Implement Signed Up Person CRUD
 - Implement Games CRUD
 - Implement Goals CRUD
+- Figure out strategy to report goals without losing data or sorting
