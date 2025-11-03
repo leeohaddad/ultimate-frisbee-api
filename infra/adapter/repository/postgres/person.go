@@ -121,12 +121,14 @@ func (repository *PersonRepository) CreatePerson(context context.Context, person
 	_, err := repository.client.ExecuteCommand(
 		context,
 		query,
+
 		personEntity.UserName,
 		personEntity.Name,
 		personEntity.Email,
 		personEntity.PhoneNumber,
 		personEntity.WFDFNumber,
 		personEntity.OriginCountry,
+
 		personEntity.CreatedBy,
 		personEntity.CreatedAt,
 		personEntity.UpdatedAt,
@@ -143,10 +145,15 @@ func personToPersonEntity(person person) *entity.Person {
 	// Rows are scanned directly into Go types by the DB client. createdAt/updatedAt
 	// are already time.Time so we can use them as-is.
 	return &entity.Person{
-		UserName:  person.ID,
-		Name:      person.Name,
-		Email:     person.Email,
+		UserName:      person.Username,
+		Name:          person.Name,
+		Email:         person.Email,
+		PhoneNumber:   person.PhoneNumber,
+		WFDFNumber:    person.WFDFNumber,
+		OriginCountry: person.OriginCountry,
+
 		CreatedAt: person.CreatedAt,
+		CreatedBy: person.CreatedBy,
 		UpdatedAt: person.UpdatedAt,
 		UpdatedBy: person.UpdatedBy,
 	}
