@@ -30,15 +30,7 @@ db/drop: ensure-migrate-installed ## Drop local database elements
 	@migrate -path ./infra/database/migrations -database $(DATABASE_CONNECTION_STRING) drop
 
 db/seed: ## Populate the local database with seed data using the application
-	@go run main.go api.go migration.go -e seed
-
-db/seed/sql: ensure-psql-installed ## Run seed scripts against the local database (alternative method)
-	@psql $(DATABASE_CONNECTION_STRING) -f ./infra/database/seeds/00001_teams.sql > /dev/null
-	@psql $(DATABASE_CONNECTION_STRING) -f ./infra/database/seeds/00002_people.sql > /dev/null
-	@echo Database seeded
+	@go run main.go api.go migration.go seed.go -e seed
 
 ensure-migrate-installed:
 	@command -v migrate >/dev/null 2>&1 || { echo >&2 "migrate is necessary to run this command. please run 'brew install golang-migrate' and try again"; exit 1; }
-
-ensure-psql-installed:
-	@command -v psql >/dev/null 2>&1 || { echo >&2 "psql is necessary to run this command. please run 'brew install postgres' and try again"; exit 1; }
