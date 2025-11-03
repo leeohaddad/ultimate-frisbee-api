@@ -70,14 +70,36 @@ func (repository *PersonRepository) GetAllPeople(context context.Context) ([]*en
 	return peopleToPersonEntities(fetchedPeople), nil
 }
 
-func peopleToPersonEntities(people []person) []*entity.Person {
-	personEntities := make([]*entity.Person, 0)
+func (repository *PersonRepository) GetPersonByUserName(context context.Context, userName string) (*entity.Person, error) {
+	query := `select
+			  user_name,
+			  name,
+			  email,
+			  phone_number,
+			  wfdf_number,
+			  origin_country,
 
-	for _, person := range people {
-		personEntities = append(personEntities, personToPersonEntity(person))
+			  created_by,
+			  created_at,
+			  updated_at,
+			  updated_by
+			from
+			  people
+			where
+			  user_name = $1`
+
+	var fetchedPerson person
+	queryResult, err := repository.client.ExecuteQuery(context, &fetchedPerson, query, userName)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve person by user_name: %w", err)
 	}
 
-	return personEntities
+	// Query executed successfully but no entity found for this user_name
+	if queryResult.RowsReturned == 0 {
+		return nil, nil
+	}
+
+	return personToPersonEntity(fetchedPerson), nil
 }
 
 func personToPersonEntity(person person) *entity.Person {
@@ -91,4 +113,14 @@ func personToPersonEntity(person person) *entity.Person {
 		UpdatedAt: person.UpdatedAt,
 		UpdatedBy: person.UpdatedBy,
 	}
+}
+
+func peopleToPersonEntities(people []person) []*entity.Person {
+	personEntities := make([]*entity.Person, 0)
+
+	for _, person := range people {
+		personEntities = append(personEntities, personToPersonEntity(person))
+	}
+
+	return personEntities
 }
