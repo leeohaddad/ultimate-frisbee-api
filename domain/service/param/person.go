@@ -9,3 +9,9 @@ import (
 type GetAllPeople struct {
 	Repository repository.Person
 }
+
+type GetPersonByUserName struct {
+	UserName string
+
+	Repository repository.Person
+}

@@ -7,3 +7,7 @@ import (
 type GetAllPeople struct {
 	People []*entity.Person
 }
+
+type GetPersonByUserName struct {
+	Person *entity.Person
+}
