@@ -1,7 +1,6 @@
 package payload
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/leeohaddad/ultimate-frisbee-api/domain/entity"
@@ -21,33 +20,25 @@ type Team struct {
 }
 
 func ValidateCreateTeamInput(team *Team) (bool, string) {
-	if isNilOrEmpty(&team.Name) {
-		return false, errorMessageInField("Name")
+	currentEntity := "Team"
+
+	if helper.IsNilOrEmpty(&team.Name) {
+		return false, helper.ErrorMessageInField(currentEntity, "Name")
 	}
 
-	if isNilOrEmpty(team.Description) {
-		return false, errorMessageInField("Description")
+	if helper.IsNilOrEmpty(team.Description) {
+		return false, helper.ErrorMessageInField(currentEntity, "Description")
 	}
 
-	if isNilOrEmpty(team.OriginCountry) {
-		return false, errorMessageInField("Origin Country")
+	if helper.IsNilOrEmpty(team.OriginCountry) {
+		return false, helper.ErrorMessageInField(currentEntity, "Origin Country")
 	}
 
-	if isNilOrEmpty(team.CreatedBy) {
-		return false, errorMessageInField("Created By")
+	if helper.IsNilOrEmpty(team.CreatedBy) {
+		return false, helper.ErrorMessageInField(currentEntity, "Created By")
 	}
 
 	return true, ""
-}
-
-// TODO(lhaddad): move this to a centralized / generic place
-func isNilOrEmpty(str *string) bool {
-	return str == nil || *str == ""
-}
-
-// TODO(lhaddad): move this to a centralized / generic place
-func errorMessageInField(field string) string {
-	return fmt.Sprintf("the team's '%s' should not be empty", field)
 }
 
 func ValidateUpdateTeamInput(team *Team, name string) (bool, string) {

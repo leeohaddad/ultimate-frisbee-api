@@ -4,8 +4,6 @@ import (
 	"github.com/leeohaddad/ultimate-frisbee-api/domain/port/repository"
 )
 
-// TODO(lhaddad): turn entities into pointers
-
-type GetAllPeople struct {
+type GetAllPeopleHandlerV1 struct {
 	Repository repository.Person
 }

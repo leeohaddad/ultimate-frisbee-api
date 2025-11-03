@@ -8,11 +8,12 @@ import (
 
 // Person represents a person that interacts with the Ultimate Frisbee community.
 type Person struct {
-	UserName string
-	ID       string
-	IDType   string
-
-	Name string
+	UserName      string
+	Name          string
+	Email         string
+	PhoneNumber   string
+	WFDFNumber    string
+	OriginCountry string
 
 	CreatedAt time.Time
 	CreatedBy string
@@ -27,8 +28,10 @@ type Person struct {
 type PersonAttribute string
 
 type personAttributeList struct {
-	ID     PersonAttribute
-	IDType PersonAttribute
+	Email         PersonAttribute
+	PhoneNumber   PersonAttribute
+	WFDFNumber    PersonAttribute
+	OriginCountry PersonAttribute
 
 	Name PersonAttribute
 
@@ -40,8 +43,10 @@ type personAttributeList struct {
 
 // PersonAttributes represents the names of the attributes that a Person entity can have.
 var PersonAttributes = &personAttributeList{
-	ID:     "ID",
-	IDType: "IDType",
+	Email:         "Email",
+	PhoneNumber:   "PhoneNumber",
+	WFDFNumber:    "WFDFNumber",
+	OriginCountry: "OriginCountry",
 
 	Name: "Name",
 
@@ -67,10 +72,11 @@ func (person *Person) StringWithIndentation(indentationLevel int) string {
 	builder := strings.Builder{}
 	builder.WriteString("[Person]\n")
 	builder.WriteString(fmt.Sprintf("%s User Name: %s\n", indentation, person.UserName))
-	builder.WriteString(fmt.Sprintf("%s ID: %s\n", indentation, person.ID))
-	builder.WriteString(fmt.Sprintf("%s IDType: %s\n", indentation, person.IDType))
-
 	builder.WriteString(fmt.Sprintf("%s Name: %s\n", indentation, person.Name))
+	builder.WriteString(fmt.Sprintf("%s Email: %s\n", indentation, person.Email))
+	builder.WriteString(fmt.Sprintf("%s Phone Number: %s\n", indentation, person.PhoneNumber))
+	builder.WriteString(fmt.Sprintf("%s WFDF Number: %s\n", indentation, person.WFDFNumber))
+	builder.WriteString(fmt.Sprintf("%s Origin Country: %s\n", indentation, person.OriginCountry))
 
 	builder.WriteString(fmt.Sprintf("%s CreatedAt: %s\n", indentation, person.CreatedAt.String()))
 	builder.WriteString(fmt.Sprintf("%s CreatedBy: %s\n", indentation, person.CreatedBy))
@@ -89,11 +95,12 @@ func (person *Person) Clone() *Person {
 		return nil
 	}
 	newPerson := &Person{
-		UserName: person.UserName,
-		ID:       person.ID,
-		IDType:   person.IDType,
-
-		Name: person.Name,
+		UserName:      person.UserName,
+		Name:          person.Name,
+		Email:         person.Email,
+		PhoneNumber:   person.PhoneNumber,
+		WFDFNumber:    person.WFDFNumber,
+		OriginCountry: person.OriginCountry,
 
 		CreatedAt: person.CreatedAt,
 		CreatedBy: person.CreatedBy,
@@ -111,23 +118,37 @@ func (person *Person) WithUserName(newUserName string) *Person {
 	return newPerson
 }
 
-func (person *Person) WithID(newID string) *Person {
-	newPerson := person.Clone()
-	newPerson.ID = newID
-
-	return newPerson
-}
-
-func (person *Person) WithIDType(newIDType string) *Person {
-	newPerson := person.Clone()
-	newPerson.IDType = newIDType
-
-	return newPerson
-}
-
 func (person *Person) WithName(newName string) *Person {
 	newPerson := person.Clone()
 	newPerson.Name = newName
+
+	return newPerson
+}
+
+func (person *Person) WithEmail(newEmail string) *Person {
+	newPerson := person.Clone()
+	newPerson.Email = newEmail
+
+	return newPerson
+}
+
+func (person *Person) WithPhoneNumber(newPhoneNumber string) *Person {
+	newPerson := person.Clone()
+	newPerson.PhoneNumber = newPhoneNumber
+
+	return newPerson
+}
+
+func (person *Person) WithWFDFNumber(newWFDFNumber string) *Person {
+	newPerson := person.Clone()
+	newPerson.WFDFNumber = newWFDFNumber
+
+	return newPerson
+}
+
+func (person *Person) WithOriginCountry(newOriginCountry string) *Person {
+	newPerson := person.Clone()
+	newPerson.OriginCountry = newOriginCountry
 
 	return newPerson
 }
