@@ -30,9 +30,6 @@ To run the e2e tests:
 
 The e2e tests require the API and its dependencies (Postgres, Redis) to be running. Make sure to follow the setup steps above before running e2e tests.
 
-### Database
-
-
 ## How to open API docs
 
 To see the API specification of the Ultimate Frisbee API run the following command:

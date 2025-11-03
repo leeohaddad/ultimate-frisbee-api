@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:144.0) Gecko/20100101 Firefox/144.0" version="28.2.7">
+  <diagram name="Page-1" id="cRTkdPVys6a5hcrpW9BI">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aapMqu97x8RKgAcHWHRa-1" value="&lt;div&gt;1. Teams&lt;/div&gt;&lt;div&gt;- Dados Cadastrais&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-2" value="&lt;div&gt;2. Person&lt;/div&gt;&lt;div&gt;- Dados Cadastrais&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-3" value="&lt;div&gt;3. Membership&lt;/div&gt;&lt;div&gt;- Team&lt;/div&gt;&lt;div&gt;- Person&lt;/div&gt;&lt;div&gt;- Role&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-4" value="&lt;div&gt;4. Tournaments&lt;/div&gt;- Type (Hat/Teams)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-5" value="5. Signed Up Team" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-6" value="&lt;div&gt;6.&amp;nbsp;Signed Up Person&lt;/div&gt;&lt;div&gt;(via Team or not)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-7" value="&lt;div&gt;7. Games&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- Tournament ID&lt;/div&gt;&lt;div&gt;- What game is this&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aapMqu97x8RKgAcHWHRa-8" value="&lt;div&gt;8. Goals&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- Game ID&lt;/div&gt;&lt;div&gt;- Scorer Person&lt;/div&gt;&lt;div&gt;- Assisting Person&lt;/div&gt;&lt;div&gt;- Timestamp&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="240" width="120" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
