@@ -37,7 +37,7 @@ func (app *App) configureRoutesV1() {
 	))
 
 	// People
-	v1RouterGroup.GET("/People/", handler.GetAllPeopleEchoHandlerV1(
+	v1RouterGroup.GET("/people/", handler.GetAllPeopleEchoHandlerV1(
 		param.GetAllPeopleHandlerV1{
 			Repository: app.repositories.Person,
 		},

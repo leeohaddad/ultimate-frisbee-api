@@ -19,7 +19,8 @@ type PersonRepository struct {
 
 // person is a representation on how the person is retrieved from the database.
 type person struct {
-	ID            string `pg:"id"`
+	Username      string `pg:"username"`
+	ID            string `pg:"id"` // TODO: remove me
 	Name          string `pg:"name"`
 	Email         string `pg:"email"`
 	PhoneNumber   string `pg:"phone_number"`
@@ -41,7 +42,7 @@ func NewPersonRepository(client postgresDatabase.Client) *PersonRepository {
 
 func (repository *PersonRepository) GetAllPeople(context context.Context) ([]*entity.Person, error) {
 	query := `select
-              user_name,
+              username,
 			  name,
               email,
 			  phone_number,
@@ -72,7 +73,7 @@ func (repository *PersonRepository) GetAllPeople(context context.Context) ([]*en
 
 func (repository *PersonRepository) GetPersonByUserName(context context.Context, userName string) (*entity.Person, error) {
 	query := `select
-			  user_name,
+			  username,
 			  name,
 			  email,
 			  phone_number,
@@ -86,20 +87,56 @@ func (repository *PersonRepository) GetPersonByUserName(context context.Context,
 			from
 			  people
 			where
-			  user_name = $1`
+			  username = ? limit 1`
 
 	var fetchedPerson person
 	queryResult, err := repository.client.ExecuteQuery(context, &fetchedPerson, query, userName)
 	if err != nil {
-		return nil, fmt.Errorf("failed to retrieve person by user_name: %w", err)
+		return nil, fmt.Errorf("failed to retrieve person by username: %w", err)
 	}
 
-	// Query executed successfully but no entity found for this user_name
+	// Query executed successfully but no entity found for this username
 	if queryResult.RowsReturned == 0 {
 		return nil, nil
 	}
 
 	return personToPersonEntity(fetchedPerson), nil
+}
+
+func (repository *PersonRepository) CreatePerson(context context.Context, personEntity *entity.Person) (*entity.Person, error) {
+	query := `insert into people (
+			  username,
+			  name,
+			  email,
+			  phone_number,
+			  wfdf_number,
+			  origin_country,
+
+			  created_by,
+			  created_at,
+			  updated_at,
+			  updated_by
+			) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+	_, err := repository.client.ExecuteCommand(
+		context,
+		query,
+		personEntity.UserName,
+		personEntity.Name,
+		personEntity.Email,
+		personEntity.PhoneNumber,
+		personEntity.WFDFNumber,
+		personEntity.OriginCountry,
+		personEntity.CreatedBy,
+		personEntity.CreatedAt,
+		personEntity.UpdatedAt,
+		personEntity.UpdatedBy,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create person: %w", err)
+	}
+
+	return personEntity, nil
 }
 
 func personToPersonEntity(person person) *entity.Person {

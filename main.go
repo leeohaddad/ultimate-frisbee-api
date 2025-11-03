@@ -97,8 +97,8 @@ func getDatabase(applicationConfig *config.Application, logger logger.Logger) po
 
 func getRepositories(applicationConfig *config.Application, databaseClient postgresDatabase.Client) repository.Collection {
 	return repository.Collection{
-		Team: postgresRepositories.NewTeamRepository(databaseClient),
-		// Person:     postgresRepositories.NewPersonRepository(databaseClient),
+		Team:   postgresRepositories.NewTeamRepository(databaseClient),
+		Person: postgresRepositories.NewPersonRepository(databaseClient),
 		// Tournament: postgresRepositories.NewRepository(databaseClient),
 	}
 }
@@ -191,6 +191,80 @@ func runSeed(applicationConfig *config.Application) {
 		}
 
 		applicationLogger.Infof("successfully created team: %s", createdTeam.Name)
+	}
+
+	// Create sample people
+	people := []struct {
+		userName      string
+		name          string
+		email         string
+		phoneNumber   string
+		wfdfNumber    string
+		originCountry string
+		createdBy     string
+	}{
+		{
+			userName:      "notdougz",
+			name:          "Douglas Olvieira",
+			email:         "doug@gmail.com",
+			phoneNumber:   "(11) 98765-4321",
+			wfdfNumber:    "12",
+			originCountry: "Brazil",
+			createdBy:     "admin",
+		},
+		{
+			userName:      "allanbm100",
+			name:          "Allan Moreira",
+			email:         "allan@gmail.com",
+			phoneNumber:   "(11) 98765-4321",
+			wfdfNumber:    "34",
+			originCountry: "Brazil",
+			createdBy:     "admin",
+		},
+		{
+			userName:      "Iolivieri",
+			name:          "Isabella Olivieri",
+			email:         "bella@gmail.com",
+			phoneNumber:   "(11) 98765-4321",
+			wfdfNumber:    "56",
+			originCountry: "Brazil",
+			createdBy:     "admin",
+		},
+	}
+	for _, person := range people {
+		// Check if person already exists
+		existing, err := repositories.Person.GetPersonByUserName(ctx, person.userName)
+		if err != nil {
+			applicationLogger.WithError(err).Errorf("error checking if person %s exists", person.userName)
+			continue
+		}
+
+		if existing != nil {
+			applicationLogger.Infof("person %s already exists, skipping", person.userName)
+			continue
+		}
+
+		// Create new person
+		personEntity := &entity.Person{
+			UserName:      person.userName,
+			Name:          person.name,
+			Email:         person.email,
+			PhoneNumber:   person.phoneNumber,
+			WFDFNumber:    person.wfdfNumber,
+			OriginCountry: person.originCountry,
+			CreatedBy:     person.createdBy,
+			CreatedAt:     time.Now(),
+			UpdatedBy:     person.createdBy,
+			UpdatedAt:     time.Now(),
+		}
+
+		createdPerson, err := repositories.Person.CreatePerson(ctx, personEntity)
+		if err != nil {
+			applicationLogger.WithError(err).Errorf("failed to create person %s", person.name)
+			continue
+		}
+
+		applicationLogger.Infof("successfully created person: %s", createdPerson.Name)
 	}
 
 	applicationLogger.Info("database seeding completed!")

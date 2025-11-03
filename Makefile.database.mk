@@ -34,7 +34,7 @@ db/seed: ## Populate the local database with seed data using the application
 
 db/seed/sql: ensure-psql-installed ## Run seed scripts against the local database (alternative method)
 	@psql $(DATABASE_CONNECTION_STRING) -f ./infra/database/seeds/00001_teams.sql > /dev/null
-# @psql $(DATABASE_CONNECTION_STRING) -f ./infra/database/seeds/00002_people.sql > /dev/null
+	@psql $(DATABASE_CONNECTION_STRING) -f ./infra/database/seeds/00002_people.sql > /dev/null
 	@echo Database seeded
 
 ensure-migrate-installed:
