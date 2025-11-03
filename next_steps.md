@@ -13,4 +13,3 @@
 - Figure out strategy to report goals without losing data or sorting
 
 ## Technical & Quality-of-life improvements
-- Get rid of the manual seeding process from main.go and replace by logic that reads the files in infra/database/seeds
