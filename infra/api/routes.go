@@ -35,4 +35,11 @@ func (app *App) configureRoutesV1() {
 			Repository: app.repositories.Team,
 		},
 	))
+
+	// People
+	v1RouterGroup.GET("/people/", handler.GetAllPeopleEchoHandlerV1(
+		param.GetAllPeopleHandlerV1{
+			Repository: app.repositories.Person,
+		},
+	))
 }

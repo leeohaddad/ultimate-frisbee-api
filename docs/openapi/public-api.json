@@ -33,7 +33,7 @@
     }
   ],
   "paths": {
-    "/v1/health": {
+    "/v1/health/": {
       "get": {
         "summary": "Retrieve statistics about the API resources",
         "tags": [
@@ -53,7 +53,7 @@
         }
       }
     },
-    "/v1/people": {
+    "/v1/people/": {
       "get": {
         "summary": "Retrieve a list of people",
         "tags": [
@@ -73,9 +73,6 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
           }
@@ -92,14 +89,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Person"
+                "$ref": "#/components/schemas/PersonCreateRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Successful operation, returns person",
+          "201": {
+            "description": "Successful operation, returns created person",
             "content": {
               "application/json": {
                 "schema": {
@@ -108,26 +105,221 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          },
-          "422": {
-            "description": "Unprocessable Entity, received when one of the required fields was invalid",
+          "400": {
+            "description": "Bad Request, validation errors",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "example": {
-                    "message": "Data sent with invalid fields",
-                    "data": [
-                      {
-                        "name": "name cannot be numeric."
-                      }
-                    ]
+                    "message": "Data sent with invalid fields"
                   }
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/teams/": {
+      "get": {
+        "summary": "Retrieve a list of teams",
+        "tags": [
+          "Teams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns a list of teams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new team",
+        "tags": [
+          "Teams"
+        ],
+        "requestBody": {
+          "description": "Information about the new team",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation, returns created team",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "Data sent with invalid fields"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict, team already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "team with this name already exists"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/v1/teams/{name}/": {
+      "get": {
+        "summary": "Retrieve a team by name",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Name of the team to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns the team",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "no team with name 'example-team' was found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a team by name",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Name of the team to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated team information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation, returns updated team",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request, validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "Data sent with invalid fields"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "no team with name 'example-team' was found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
           }
         }
       }
@@ -135,9 +327,6 @@
   },
   "components": {
     "responses": {
-      "UnauthorizedError": {
-        "description": "Authentication information is missing or invalid"
-      },
       "PersonNotFound": {
         "description": "Person not found"
       },
@@ -145,41 +334,192 @@
         "description": "Internal server error"
       }
     },
-    "securitySchemes": {
-      "basicAuth": {
-        "type": "http",
-        "scheme": "basic"
-      }
-    },
     "schemas": {
       "Person": {
         "type": "object",
         "properties": {
-          "ID": {
+          "userName": {
             "type": "string",
-            "description": "Human-readable identifier of that person"
-          },
-          "IDType": {
-            "type": "string",
-            "description": "Type of the human-readable identifier of that person"
+            "description": "Unique username identifier for the person"
           },
           "name": {
             "type": "string",
-            "description": "Person name"
+            "description": "Full name of the person"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the person"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Phone number of the person"
+          },
+          "wfdfNumber": {
+            "type": "string",
+            "description": "World Flying Disc Federation number"
+          },
+          "originCountry": {
+            "type": "string",
+            "description": "Country of origin of the person"
           },
           "createdBy": {
             "type": "string",
-            "description": "Person who created this person registry"
+            "description": "Username of the person who created this record"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this record was created"
           },
           "updatedBy": {
             "type": "string",
-            "description": "Person who updated this person registry for the last time"
+            "description": "Username of the person who last updated this record"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this record was last updated"
           }
         },
         "example": {
-          "ID": "48.729.962-9",
-          "IDType": "RG (SSP/SP)",
-          "name": "Leonardo Haddad"
+          "userName": "leo.haddad",
+          "name": "Leonardo Haddad",
+          "email": "leo.haddad1@gmail.com",
+          "phoneNumber": "+55 11 99999-9999",
+          "wfdfNumber": "123456",
+          "originCountry": "Brazil",
+          "createdBy": "admin",
+          "createdAt": "2025-11-02T10:00:00Z",
+          "updatedBy": "admin",
+          "updatedAt": "2025-11-02T10:00:00Z"
+        }
+      },
+      "PersonCreateRequest": {
+        "type": "object",
+        "required": ["userName", "name", "email", "phoneNumber", "wfdfNumber", "originCountry", "createdBy"],
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Unique username identifier for the person"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the person"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the person"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "Phone number of the person"
+          },
+          "wfdfNumber": {
+            "type": "string",
+            "description": "World Flying Disc Federation number"
+          },
+          "originCountry": {
+            "type": "string",
+            "description": "Country of origin of the person"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Username of the person creating this record"
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly identifier for the team"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the team"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the team"
+          },
+          "originCountry": {
+            "type": "string",
+            "description": "Country of origin of the team"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Username of the person who created this record"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this record was created"
+          },
+          "updatedBy": {
+            "type": "string",
+            "description": "Username of the person who last updated this record"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this record was last updated"
+          }
+        },
+        "example": {
+          "slug": "ultimate-warriors",
+          "name": "Ultimate Warriors",
+          "description": "A competitive ultimate frisbee team",
+          "originCountry": "United States",
+          "createdBy": "admin",
+          "createdAt": "2025-11-02T10:00:00Z",
+          "updatedBy": "admin",
+          "updatedAt": "2025-11-02T10:00:00Z"
+        }
+      },
+      "TeamCreateRequest": {
+        "type": "object",
+        "required": ["slug", "name", "description", "originCountry", "createdBy"],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly identifier for the team"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the team"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the team"
+          },
+          "originCountry": {
+            "type": "string",
+            "description": "Country of origin of the team"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Username of the person creating this record"
+          }
+        }
+      },
+      "TeamUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Updated description of the team"
+          },
+          "originCountry": {
+            "type": "string",
+            "description": "Updated country of origin of the team"
+          },
+          "updatedBy": {
+            "type": "string",
+            "description": "Username of the person updating this record"
+          }
         }
       },
       "ServerStats": {
@@ -198,11 +538,6 @@
         }
       }
     }
-  },
-  "security": [
-    {
-      "basicAuth": []
-    }
-  ]
+  }
 }
 

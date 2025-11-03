@@ -149,6 +149,35 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "People",
+			"item": [
+				{
+					"name": "Get All People",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/people/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"people",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
